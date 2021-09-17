@@ -38,7 +38,6 @@ public class AppUserService implements UserDetailsService {
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
-
         appUser.setPassword(encodedPassword);
 
         appUserRepository.save(appUser);
@@ -50,8 +49,11 @@ public class AppUserService implements UserDetailsService {
                 LocalDateTime.now().plusMinutes(15),
                 appUser
         );
-
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         return token;
+    }
+
+    public int enableAppUser(String email) {
+        return appUserRepository.enableAppUser(email);
     }
 }
